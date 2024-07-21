@@ -1,3 +1,5 @@
+package kr.kshgroup.redis
+
 import java.net.ServerSocket
 
 fun main(args: Array<String>) {
