@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
     val writer = sock.getOutputStream().bufferedWriter()
     while (true) {
         if (reader.readLine() == "PING") {
-            writer.write("+PONG\\r\\n")
+            writer.write("+PONG\r\n")
             writer.flush()
             println("PONG!")
         }
