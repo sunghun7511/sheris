@@ -1,6 +1,6 @@
-package kr.kshgroup.sheris.resp.model
+package kr.kshgroup.sheris.resp
 
-enum class RespDataType (name: String, minimumVersion: RespVersion, category: RespDataCategory, firstByte: String) {
+enum class RespDataType (val label: String, val minimumVersion: RespVersion, val category: RespDataCategory, val firstByte: String) {
     SIMPLE_STRING("Simple strings", RespVersion.RESP2, RespDataCategory.SIMPLE, "+"),
     SIMPLE_ERROR("Simple Errors", RespVersion.RESP2, RespDataCategory.SIMPLE, "-"),
     INTEGERS("Integers", RespVersion.RESP2, RespDataCategory.SIMPLE, ":"),
@@ -14,5 +14,10 @@ enum class RespDataType (name: String, minimumVersion: RespVersion, category: Re
     VERBATIM_STRINGS("Verbatim strings", RespVersion.RESP3, RespDataCategory.AGGREGATE, "="),
     MAPS("Maps", RespVersion.RESP3, RespDataCategory.AGGREGATE, "%"),
     SETS("Sets", RespVersion.RESP3, RespDataCategory.AGGREGATE, "~"),
-    PUSHES("Pushes", RespVersion.RESP3, RespDataCategory.AGGREGATE, ">")
+    PUSHES("Pushes", RespVersion.RESP3, RespDataCategory.AGGREGATE, ">"),
+    ;
+
+    fun getDataTypeByFirstByte(firstByte: String): RespDataType {
+        return entries.first { it.firstByte == firstByte }
+    }
 }

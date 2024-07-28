@@ -1,5 +1,6 @@
 package kr.kshgroup.sheris
 
+import kr.kshgroup.sheris.resp.data.RespSimpleStrings
 import java.net.ServerSocket
 import java.net.Socket
 
@@ -8,8 +9,14 @@ fun handleClient(sock: Socket) {
     val writer = sock.getOutputStream().bufferedWriter()
 
     while (true) {
-        if (reader.readLine() == "PING") {
-            writer.write("+PONG\r\n")
+        val line = reader.readLine()
+        // For DEBUG
+        if (line != null) {
+            println(line)
+        }
+
+        if (line == "PING") {
+            writer.write(RespSimpleStrings("PONG").toString())
             writer.flush()
             println("PONG!")
         }
