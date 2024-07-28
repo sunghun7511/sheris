@@ -31,6 +31,7 @@ fun main(args: Array<String>) {
         val sock = serverSocket.accept() // Wait for connection from client.
         println("accepted new connection")
 
+        // TODO: implement concurrent system with event loop
         Thread { handleClient(sock) }.start()
     }
 }
