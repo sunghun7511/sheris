@@ -1,4 +1,4 @@
-package kr.kshgroup.redis.resp.model
+package kr.kshgroup.sheris.resp.model
 
 abstract class RespData<T>(
     open val dataType: RespDataType,

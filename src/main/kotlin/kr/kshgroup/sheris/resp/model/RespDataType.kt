@@ -1,4 +1,4 @@
-package kr.kshgroup.redis.resp.model
+package kr.kshgroup.sheris.resp.model
 
 enum class RespDataType (name: String, minimumVersion: RespVersion, category: RespDataCategory, firstByte: String) {
     SIMPLE_STRING("Simple strings", RespVersion.RESP2, RespDataCategory.SIMPLE, "+"),

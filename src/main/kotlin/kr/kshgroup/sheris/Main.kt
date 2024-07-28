@@ -1,4 +1,4 @@
-package kr.kshgroup.redis
+package kr.kshgroup.sheris
 
 import java.net.ServerSocket
 import java.net.Socket
