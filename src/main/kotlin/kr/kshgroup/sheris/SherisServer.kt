@@ -1,24 +1,32 @@
 package kr.kshgroup.sheris
 
+import kr.kshgroup.sheris.io.SherisConnection
+import kr.kshgroup.sheris.resp.data.RespArrays
+import kr.kshgroup.sheris.resp.data.RespBulkStrings
 import kr.kshgroup.sheris.resp.data.RespSimpleStrings
 import java.net.ServerSocket
 import java.net.Socket
 
 fun handleClient(sock: Socket) {
-    val reader = sock.getInputStream().bufferedReader()
-    val writer = sock.getOutputStream().bufferedWriter()
-
+    val connection = SherisConnection(sock)
     while (true) {
-        val line = reader.readLine()
-        // For DEBUG
-        if (line != null) {
-            println(line)
+        val line = connection.readData()
+
+        if (line !is RespArrays) {
+            println("Warning: Received non-array data. Ignoring.")
+            continue
         }
 
-        if (line == "PING") {
-            writer.write(RespSimpleStrings("PONG").toString())
-            writer.flush()
-            println("PONG!")
+        for (command in line.data) {
+            if (command !is RespBulkStrings) {
+                println("Warning: Received non-bulk string data. Ignoring.")
+                continue
+            }
+
+            if (command.data == "PING") {
+                connection.writeData(RespSimpleStrings("PONG"))
+                println("PONG!")
+            }
         }
     }
 }
