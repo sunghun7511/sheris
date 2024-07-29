@@ -1,5 +1,8 @@
 package kr.kshgroup.sheris
 
+import kotlinx.cli.ArgParser
+import kotlinx.cli.ArgType
+import kotlinx.cli.default
 import kr.kshgroup.sheris.io.SherisConnection
 import java.net.ServerSocket
 import java.net.Socket
@@ -14,14 +17,15 @@ fun handleClient(sock: Socket) {
 }
 
 fun main(args: Array<String>) {
-    // You can use print statements as follows for debugging, they'll be visible when running tests.
-    System.err.println("Logs from your program will appear here!")
+    val parser = ArgParser("Sheris - Redis client by SHGroup")
+    val port by parser.option(
+        ArgType.Int,
+        shortName = "p",
+        description = "Port to listen on"
+    ).default(6379)
+    parser.parse(args)
 
-    // Uncomment this block to pass the first stage
-    val serverSocket = ServerSocket(6379)
-
-    // Since the tester restarts your program quite often, setting SO_REUSEADDR
-    // ensures that we don't run into 'Address already in use' errors
+    val serverSocket = ServerSocket(port)
     serverSocket.reuseAddress = true
 
     while (true) {
