@@ -26,8 +26,9 @@ object CommandExecutor {
             throw SherisUnknownCommandFormatException(data)
         }
 
-        val command = getCommandByName(commandName.data)
-        return command?.execute(data)?.data ?: throw SherisUnknownCommandException(commandName.data)
+        val command = getCommandByName(commandName.getDataOrEmpty())
+        return command?.execute(data)?.data
+            ?: throw SherisUnknownCommandException(commandName.getDataOrEmpty())
     }
 
     private fun getCommandByName(name: String): AbstractCommand? {
