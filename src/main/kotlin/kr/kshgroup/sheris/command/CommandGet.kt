@@ -14,8 +14,6 @@ object CommandGet : AbstractCommand("GET") {
         val key = (args.data[1] as RespBulkStrings).data!!
 
         val value = Storage.get(key)
-
-        val result = if (value != null) RespBulkStrings(value) else RespNulls()
-        return CommandResult(result)
+        return CommandResult(RespBulkStrings(value))
     }
 }
