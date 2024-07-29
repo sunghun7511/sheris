@@ -1,8 +1,6 @@
 package kr.kshgroup.sheris
 
-import kr.kshgroup.sheris.command.AbstractCommand
-import kr.kshgroup.sheris.command.CommandEcho
-import kr.kshgroup.sheris.command.CommandPing
+import kr.kshgroup.sheris.command.*
 import kr.kshgroup.sheris.exception.SherisUnknownCommandException
 import kr.kshgroup.sheris.exception.SherisUnknownCommandFormatException
 import kr.kshgroup.sheris.resp.RespData
@@ -13,7 +11,9 @@ object CommandExecutor {
     // TODO: Implement command locator
     private val commands = listOf(
         CommandEcho,
+        CommandGet,
         CommandPing,
+        CommandSet,
     )
 
     fun execute(data: RespData): RespData {
