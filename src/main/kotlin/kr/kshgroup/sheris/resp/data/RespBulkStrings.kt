@@ -17,4 +17,12 @@ class RespBulkStrings(val data: String?) : RespData(RespDataType.BULK_STRINGS) {
     fun getDataOrEmpty(): String {
         return this.data ?: ""
     }
+
+    fun asString(): String {
+        return this.data ?: ""
+    }
+
+    override fun toString(): String {
+        return this.data ?: ""
+    }
 }

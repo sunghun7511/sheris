@@ -12,7 +12,7 @@ class SherisConnection(socket: Socket) {
     }
 
     fun writeData(data: RespData) {
-        writer.write(data.toString())
+        writer.write(data.toRespString())
         writer.flush()
     }
 }

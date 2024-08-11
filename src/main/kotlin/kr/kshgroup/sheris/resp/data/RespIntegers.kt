@@ -7,4 +7,12 @@ class RespIntegers(private val data: Int) : RespData(RespDataType.INTEGERS) {
     override fun getContentString(): String {
         return data.toString()
     }
+
+    fun asInt(): Int {
+        return data
+    }
+
+    override fun toString(): String {
+        return data.toString()
+    }
 }

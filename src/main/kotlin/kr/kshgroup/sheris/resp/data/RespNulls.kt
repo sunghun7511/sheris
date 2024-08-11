@@ -7,4 +7,8 @@ class RespNulls : RespData(RespDataType.NULLS) {
     override fun getContentString(): String {
         return ""
     }
+
+    override fun toString(): String {
+        return "null"
+    }
 }

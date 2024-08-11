@@ -7,4 +7,12 @@ class RespBigNumbers(private val value: Long) : RespData(RespDataType.BIG_NUMBER
     override fun getContentString(): String {
         return value.toString()
     }
+
+    fun asLong(): Long {
+        return value
+    }
+
+    override fun toString(): String {
+        return value.toString()
+    }
 }

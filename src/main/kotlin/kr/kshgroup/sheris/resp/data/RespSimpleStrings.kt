@@ -7,4 +7,12 @@ class RespSimpleStrings(private val data: String) : RespData(RespDataType.SIMPLE
     override fun getContentString(): String {
         return data
     }
+
+    fun asString(): String {
+        return data
+    }
+
+    override fun toString(): String {
+        return data
+    }
 }

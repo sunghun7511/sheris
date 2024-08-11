@@ -1,14 +1,13 @@
 package kr.kshgroup.sheris.command
 
-import kr.kshgroup.sheris.resp.RespDataType
-import kr.kshgroup.sheris.resp.data.RespArrays
+import kr.kshgroup.sheris.resp.data.RespBulkStrings
 
-object CommandEcho : AbstractCommand("ECHO") {
-    override fun validate(args: RespArrays): Boolean {
-        return args.data.size == 2 && args.data[1].dataType == RespDataType.BULK_STRINGS
+object CommandEcho : AbstractStringCommand("ECHO") {
+    override fun validate(args: Array<String>): Boolean {
+        return args.size == 2
     }
 
-    override fun execute(args: RespArrays): CommandResult {
-        return CommandResult(args.data[1])
+    override fun execute(args: Array<String>): CommandResult {
+        return CommandResult(RespBulkStrings(args[1]))
     }
 }

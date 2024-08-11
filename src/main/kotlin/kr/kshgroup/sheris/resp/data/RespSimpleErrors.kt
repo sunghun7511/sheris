@@ -7,4 +7,12 @@ class RespSimpleErrors(private val message: String) : RespData(RespDataType.SIMP
     override fun getContentString(): String {
         return message
     }
+
+    fun asString(): String {
+        return message
+    }
+
+    override fun toString(): String {
+        return message
+    }
 }

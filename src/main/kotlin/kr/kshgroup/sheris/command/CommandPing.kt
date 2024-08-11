@@ -1,14 +1,13 @@
 package kr.kshgroup.sheris.command
 
-import kr.kshgroup.sheris.resp.data.RespArrays
 import kr.kshgroup.sheris.resp.data.RespBulkStrings
 
-object CommandPing : AbstractCommand("PING") {
-    override fun validate(args: RespArrays): Boolean {
-        return args.data.size == 1
+object CommandPing : AbstractStringCommand("PING") {
+    override fun validate(args: Array<String>): Boolean {
+        return args.size == 1
     }
 
-    override fun execute(args: RespArrays): CommandResult {
+    override fun execute(args: Array<String>): CommandResult {
         return CommandResult(RespBulkStrings("PONG"))
     }
 }
