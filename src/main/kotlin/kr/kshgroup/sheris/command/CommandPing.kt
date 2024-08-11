@@ -1,8 +1,9 @@
 package kr.kshgroup.sheris.command
 
+import kr.kshgroup.sheris.SherisServer
 import kr.kshgroup.sheris.resp.data.RespBulkStrings
 
-object CommandPing : AbstractStringCommand("PING") {
+class CommandPing(sherisServer: SherisServer) : AbstractStringCommand("PING", sherisServer) {
     override fun validate(args: Array<String>): Boolean {
         return args.size == 1
     }

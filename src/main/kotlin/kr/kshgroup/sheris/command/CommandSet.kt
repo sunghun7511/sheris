@@ -1,10 +1,10 @@
 package kr.kshgroup.sheris.command
 
-import kr.kshgroup.sheris.data.Storage
+import kr.kshgroup.sheris.SherisServer
 import kr.kshgroup.sheris.resp.data.RespSimpleErrors
 import kr.kshgroup.sheris.resp.data.RespSimpleStrings
 
-object CommandSet : AbstractStringCommand("SET") {
+class CommandSet(sherisServer: SherisServer) : AbstractStringCommand("SET", sherisServer) {
     override fun validate(args: Array<String>): Boolean {
         return args.size >= 3
     }
@@ -20,11 +20,11 @@ object CommandSet : AbstractStringCommand("SET") {
 
             val expire = args[4].toIntOrNull()
                 ?: return CommandResult(RespSimpleErrors("ERR invalid expire time in set"))
-            Storage.set(key, value, expire)
+            this.sherisServer.getStorage().set(key, value, expire)
             return CommandResult(RespSimpleStrings("OK"))
         }
 
-        Storage.set(key, value)
+        this.sherisServer.getStorage().set(key, value)
 
         return CommandResult(RespSimpleStrings("OK"))
     }

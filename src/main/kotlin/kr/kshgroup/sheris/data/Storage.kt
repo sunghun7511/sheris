@@ -3,15 +3,13 @@ package kr.kshgroup.sheris.data
 
 open class Data(open val value: String)
 
-class ExpirableData(override val value: String, val expireAt: Long) : Data(value) {
+class ExpirableData(override val value: String, private val expireAt: Long) : Data(value) {
     fun isExpired(): Boolean {
         return System.currentTimeMillis() > expireAt
     }
 }
 
-object Storage {
-    private val data: MutableMap<String, Data> = mutableMapOf()
-
+class Storage(private val data: MutableMap<String, Data> = mutableMapOf()) {
     fun get(key: String): String? {
         expireCheck(key)
         return data[key]?.value
