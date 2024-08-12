@@ -5,8 +5,8 @@ data class SherisConfiguration (
     val replication: ReplicationConfiguration = ReplicationConfiguration(),
 ) {
     companion object {
-        fun of(port: Int, replicaOf: String): SherisConfiguration {
-            val replication = if (replicaOf.isNotBlank()) {
+        fun of(port: Int, replicaOf: String?): SherisConfiguration {
+            val replication = if (replicaOf?.isNotBlank() == true) {
                 ReplicationConfiguration(
                     enabled = true,
                     role = ReplicationRole.SLAVE,

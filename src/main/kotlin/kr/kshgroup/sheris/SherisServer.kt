@@ -75,7 +75,7 @@ fun main(args: Array<String>) {
         ArgType.String,
         fullName = "replicaof",
         description = "Make the server a replica of another instance",
-    ).default("NO ONE")
+    )
     parser.parse(args)
 
     val server = SherisServer(SherisConfiguration.of(port, replicaOf))
