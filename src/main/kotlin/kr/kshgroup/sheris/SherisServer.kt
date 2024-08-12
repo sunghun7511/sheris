@@ -1,8 +1,6 @@
 package kr.kshgroup.sheris
 
-import kotlinx.cli.ArgParser
-import kotlinx.cli.ArgType
-import kotlinx.cli.default
+import kotlinx.cli.*
 import kr.kshgroup.sheris.command.CommandResult
 import kr.kshgroup.sheris.data.Storage
 import kr.kshgroup.sheris.exception.SherisConnectionClosedException
@@ -67,14 +65,19 @@ class SherisServer(
 }
 
 fun main(args: Array<String>) {
-    val parser = ArgParser("Sheris - Redis client by SHGroup")
+    val parser = ArgParser("Sheris - Redis server by SHGroup")
     val port by parser.option(
         ArgType.Int,
         shortName = "p",
         description = "Port to listen on"
     ).default(6379)
+    val replicaOf by parser.option(
+        ArgType.String,
+        fullName = "replicaof",
+        description = "Make the server a replica of another instance",
+    ).default("NO ONE")
     parser.parse(args)
 
-    val server = SherisServer(SherisConfiguration(port = port))
+    val server = SherisServer(SherisConfiguration.of(port, replicaOf))
     server.run()
 }
