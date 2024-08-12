@@ -12,6 +12,7 @@ class CommandExecutor(private val instance: SherisServer) {
     private val commands: List<AbstractCommand> = listOf(
         CommandEcho::class,
         CommandGet::class,
+        CommandInfo::class,
         CommandPing::class,
         CommandSet::class,
     ).map { it.primaryConstructor!!.call(instance) }
