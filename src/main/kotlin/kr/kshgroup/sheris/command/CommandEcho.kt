@@ -1,7 +1,6 @@
 package kr.kshgroup.sheris.command
 
 import kr.kshgroup.sheris.SherisServer
-import kr.kshgroup.sheris.resp.data.RespBulkStrings
 
 class CommandEcho(sherisServer: SherisServer) : AbstractStringCommand("ECHO", sherisServer) {
     override fun validate(args: Array<String>): Boolean {
@@ -9,6 +8,6 @@ class CommandEcho(sherisServer: SherisServer) : AbstractStringCommand("ECHO", sh
     }
 
     override fun execute(args: Array<String>): CommandResult {
-        return CommandResult(RespBulkStrings(args[1]))
+        return CommandResult.bStr(args[1])
     }
 }

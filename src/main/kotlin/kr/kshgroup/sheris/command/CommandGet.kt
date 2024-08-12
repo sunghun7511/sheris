@@ -1,7 +1,6 @@
 package kr.kshgroup.sheris.command
 
 import kr.kshgroup.sheris.SherisServer
-import kr.kshgroup.sheris.resp.data.RespBulkStrings
 
 class CommandGet(sherisServer: SherisServer) : AbstractStringCommand("GET", sherisServer) {
     override fun validate(args: Array<String>): Boolean {
@@ -12,6 +11,6 @@ class CommandGet(sherisServer: SherisServer) : AbstractStringCommand("GET", sher
         val key = args[1]
 
         val value = this.sherisServer.getStorage().get(key)
-        return CommandResult(RespBulkStrings(value))
+        return CommandResult.bStr(value)
     }
 }

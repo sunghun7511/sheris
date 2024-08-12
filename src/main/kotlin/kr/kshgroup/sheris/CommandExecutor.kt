@@ -16,20 +16,19 @@ class CommandExecutor(private val instance: SherisServer) {
         CommandSet::class,
     ).map { it.primaryConstructor!!.call(instance) }
 
-    fun execute(data: RespData): RespData {
+    fun execute(data: RespData): CommandResult {
         if (data !is RespArrays || data.isEmpty()) {
             throw SherisUnknownCommandFormatException(data)
         }
 
         val command = getCommandByName(
-            (data[0] as? RespBulkStrings ?: throw SherisUnknownCommandFormatException(data)).asString()
+            (data[0] as? RespBulkStrings)?.asString() ?: throw SherisUnknownCommandFormatException(data)
         )
         if (command?.validate(data) != true) {
             throw SherisUnknownCommandFormatException(data)
         }
 
-        val result = command.execute(data)
-        return result.data
+        return command.execute(data)
     }
 
     private fun getCommandByName(name: String): AbstractCommand? {

@@ -3,7 +3,9 @@ package kr.kshgroup.sheris
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.default
+import kr.kshgroup.sheris.command.CommandResult
 import kr.kshgroup.sheris.data.Storage
+import kr.kshgroup.sheris.exception.SherisUnknownCommandException
 import kr.kshgroup.sheris.io.SherisConnection
 import java.net.ServerSocket
 import java.net.Socket
@@ -39,8 +41,13 @@ class SherisServer(
         val connection = SherisConnection(sock)
         while (true) {
             val command = connection.readData()
-            val result = executor.execute(command)
-            connection.writeData(result)
+
+            val result: CommandResult = try {
+                executor.execute(command)
+            } catch (e: SherisUnknownCommandException) {
+                CommandResult.error(e.message ?: "Error in command execute: $command")
+            }
+            connection.writeData(result.data)
         }
     }
 }
