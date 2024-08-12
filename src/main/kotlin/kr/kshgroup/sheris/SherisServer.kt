@@ -5,6 +5,7 @@ import kotlinx.cli.ArgType
 import kotlinx.cli.default
 import kr.kshgroup.sheris.command.CommandResult
 import kr.kshgroup.sheris.data.Storage
+import kr.kshgroup.sheris.exception.SherisConnectionClosedException
 import kr.kshgroup.sheris.exception.SherisUnknownCommandException
 import kr.kshgroup.sheris.io.SherisConnection
 import java.net.ServerSocket
@@ -28,27 +29,40 @@ class SherisServer(
         val serverSocket = ServerSocket(this.configuration.port)
         serverSocket.reuseAddress = true
 
+        var id = 0
         while (true) {
-            val sock = serverSocket.accept() // Wait for connection from client.
-            println("accepted new connection")
+            val sock = serverSocket.accept()
 
             // TODO: implement concurrent system with event loop
-            Thread { handleClient(sock) }.start()
+            Thread { handleClient(sock, id++) }.start()
         }
     }
 
-    private fun handleClient(sock: Socket) {
+    private fun handleClient(sock: Socket, id: Int) {
+        println("[$id] accepted new connection")
+
         val connection = SherisConnection(sock)
         while (true) {
-            val command = connection.readData()
-
-            val result: CommandResult = try {
-                executor.execute(command)
-            } catch (e: SherisUnknownCommandException) {
-                CommandResult.error(e.message ?: "Error in command execute: $command")
+            try {
+                handleCommand(connection)
+            } catch (e: SherisConnectionClosedException) {
+                println("[$id] Connection closed: ${e.message}")
+                break
+            } catch (e: Exception) {
+                println("[$id] Error in handling command: ${e.message}")
             }
-            connection.writeData(result.data)
         }
+    }
+
+    private fun handleCommand(connection: SherisConnection) {
+        val command = connection.readData()
+
+        val result: CommandResult = try {
+            executor.execute(command)
+        } catch (e: SherisUnknownCommandException) {
+            CommandResult.error(e.message ?: "Error in command execute: $command")
+        }
+        connection.writeData(result.data)
     }
 }
 
