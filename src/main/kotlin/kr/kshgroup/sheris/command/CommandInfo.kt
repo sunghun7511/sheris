@@ -16,16 +16,16 @@ class CommandInfo(sherisServer: SherisServer) : AbstractStringCommand("INFO", sh
         return when (section.lowercase()) {
             "replication" -> {
                 val info = getReplicationInfo()
-                CommandResult.bStr(info.map { "${it.key}:${it.value}" }.joinToString("\r\n"))
+                CommandResult.bStr(info.map { "${it.key}:${it.value?:""}" }.joinToString("\r\n"))
             }
             else -> CommandResult.error("unknown section $section")
         }
     }
 
-    private fun getReplicationInfo(): Map<String, String> {
+    private fun getReplicationInfo(): Map<String, String?> {
         val replicationManager = sherisServer.replicationManager
         return mapOf(
-            "role" to replicationManager.role.name,
+            "role" to replicationManager.role.name.lowercase(),
             "connected_slaves" to replicationManager.connectedSlaves.size.toString(),
             "master_replid" to replicationManager.masterReplicationId,
             "master_repl_offset" to replicationManager.masterReplicationOffset.toString(),
