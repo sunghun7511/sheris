@@ -2,11 +2,18 @@ package kr.kshgroup.sheris
 
 data class SherisConfiguration (
     val port: Int = 6379,
-    val replication: ReplicationConfiguration = ReplicationConfiguration(),
+    val replication: ReplicationConfiguration,
+)
+
+data class ReplicationConfiguration (
+    val enabled: Boolean = false,
+    val role: ReplicationRole = ReplicationRole.MASTER,
+    val masterHost: String? = null,
+    val masterPort: Int? = null,
 ) {
     companion object {
-        fun of(port: Int, replicaOf: String?): SherisConfiguration {
-            val replication = if (replicaOf?.isNotBlank() == true) {
+        fun of(replicaOf: String?): ReplicationConfiguration {
+            return if (replicaOf?.isNotBlank() == true) {
                 ReplicationConfiguration(
                     enabled = true,
                     role = ReplicationRole.SLAVE,
@@ -16,18 +23,9 @@ data class SherisConfiguration (
             } else {
                 ReplicationConfiguration(enabled = false)
             }
-
-            return SherisConfiguration(port = port, replication = replication)
         }
     }
 }
-
-data class ReplicationConfiguration (
-    val enabled: Boolean = false,
-    val role: ReplicationRole = ReplicationRole.MASTER,
-    val masterHost: String? = null,
-    val masterPort: Int? = null,
-)
 
 enum class ReplicationRole {
     MASTER,

@@ -78,6 +78,9 @@ fun main(args: Array<String>) {
     )
     parser.parse(args)
 
-    val server = SherisServer(SherisConfiguration.of(port, replicaOf))
+    val server = SherisServer(SherisConfiguration(
+        port = port,
+        replication = ReplicationConfiguration.of(replicaOf)
+    ))
     server.run()
 }
