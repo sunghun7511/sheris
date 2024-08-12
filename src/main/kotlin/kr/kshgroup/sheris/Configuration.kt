@@ -26,8 +26,3 @@ data class ReplicationConfiguration (
         }
     }
 }
-
-enum class ReplicationRole {
-    MASTER,
-    SLAVE
-}

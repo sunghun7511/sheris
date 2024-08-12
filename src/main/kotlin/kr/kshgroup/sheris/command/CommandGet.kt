@@ -10,7 +10,7 @@ class CommandGet(sherisServer: SherisServer) : AbstractStringCommand("GET", sher
     override fun execute(args: Array<String>): CommandResult {
         val key = args[1]
 
-        val value = this.sherisServer.getStorage().get(key)
+        val value = this.sherisServer.storage.get(key)
         return CommandResult.bStr(value)
     }
 }

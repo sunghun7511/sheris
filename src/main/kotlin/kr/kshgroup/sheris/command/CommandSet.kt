@@ -18,11 +18,11 @@ class CommandSet(sherisServer: SherisServer) : AbstractStringCommand("SET", sher
 
             val expire = args[4].toIntOrNull()
                 ?: return CommandResult.error("invalid expire time in set")
-            this.sherisServer.getStorage().set(key, value, expire)
+            this.sherisServer.storage.set(key, value, expire)
             return CommandResult.sStr("OK")
         }
 
-        this.sherisServer.getStorage().set(key, value)
+        this.sherisServer.storage.set(key, value)
 
         return CommandResult.sStr("OK")
     }

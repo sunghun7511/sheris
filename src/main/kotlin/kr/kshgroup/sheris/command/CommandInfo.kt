@@ -23,11 +23,12 @@ class CommandInfo(sherisServer: SherisServer) : AbstractStringCommand("INFO", sh
     }
 
     private fun getReplicationInfo(): Map<String, String> {
+        val replicationManager = sherisServer.replicationManager
         return mapOf(
-            "role" to sherisServer.getConfiguration().replication.role.name.lowercase(),
-            "connected_slaves" to "0",
-            "master_replid" to "",
-            "master_repl_offset" to "",
+            "role" to replicationManager.role.name,
+            "connected_slaves" to replicationManager.connectedSlaves.size.toString(),
+            "master_replid" to replicationManager.masterReplicationId,
+            "master_repl_offset" to replicationManager.masterReplicationOffset.toString(),
         )
     }
 }

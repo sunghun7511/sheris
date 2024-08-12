@@ -12,16 +12,9 @@ import java.net.Socket
 class SherisServer(
     private val configuration: SherisConfiguration,
 ) {
-    private val executor: CommandExecutor = CommandExecutor(this)
-    private val storage: Storage = Storage()
-
-    fun getConfiguration(): SherisConfiguration {
-        return this.configuration
-    }
-
-    fun getStorage(): Storage {
-        return this.storage
-    }
+    val executor: CommandExecutor = CommandExecutor(this)
+    val replicationManager: ReplicationManager = ReplicationManager(this, configuration.replication)
+    val storage: Storage = Storage()
 
     fun run() {
         val serverSocket = ServerSocket(this.configuration.port)
